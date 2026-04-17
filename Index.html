@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pick One</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #111;
+      color: white;
+    }
+
+    h1 {
+      margin-top: 30px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 40px;
+    }
+
+    .option {
+      padding: 20px 35px;
+      border: 2px solid white;
+      cursor: pointer;
+      font-size: 18px;
+      transition: 0.3s;
+      border-radius: 10px;
+    }
+
+    .option:hover {
+      background: white;
+      color: black;
+    }
+
+    .disabled {
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    .selected {
+      background: #00ffcc;
+      color: black;
+      border-color: #00ffcc;
+      transform: scale(1.1);
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Select ONE 👇 (2 will disappear)</h1>
+
+  <div class="container">
+    <div class="option">Dhruv</div>
+    <div class="option">Aanchal</div>
+    <div class="option">Flory</div>
+    <div class="option">Siddhi</div>
+    <div class="option">Vishwa</div>
+  </div>
+
+  <button onclick="resetGame()">Reset</button>
+
+  <script>
+    const options = document.querySelectorAll('.option');
+
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+
+        // Stop if already selected
+        if (document.querySelector('.selected')) return;
+
+        // Mark selected
+        option.classList.add('selected');
+
+        // Get all other options
+        let others = Array.from(options).filter(o => o !== option);
+
+        // Shuffle others randomly
+        others.sort(() => Math.random() - 0.5);
+
+        // Pick 2 to remove
+        let toDisable = others.slice(0, 2);
+
+        // Disable those 2
+        toDisable.forEach(o => o.classList.add('disabled'));
+
+      });
+    });
+
+    function resetGame() {
+      options.forEach(option => {
+        option.classList.remove('disabled', 'selected');
+      });
+    }
+  </script>
+
+</body>
+</html>
